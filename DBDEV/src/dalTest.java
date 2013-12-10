@@ -1,10 +1,12 @@
 import java.sql.*;
 
-
 /**
  *
  * @author Eric
  */
+
+
+
 public class dalTest {
     
     public static void main(String[] args) throws SQLException
@@ -14,9 +16,7 @@ public class dalTest {
         String name = "150220_od57594";
         String pwd = "EttLosenord123";
         
-        
-        
-        
+                        
         try 
         {
             
@@ -32,9 +32,13 @@ public class dalTest {
         
         Connection con = DriverManager.getConnection(url, name, pwd);
         
-        Statement stamnt = con.createStatement ();
+        Statement query = con.createStatement ();
         
-        stamnt.execute("create table Testingtesting(x varchar(10));");
+        ResultSet answer = query.executeQuery("SELECT * FROM STUDENT");
+        
+       answer.next();
+       System.out.print(answer.getString("name") + " " + answer.getString("adress"));
+        
         
     }
         
