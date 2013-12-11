@@ -42,7 +42,7 @@ public class Dal {
 
     
     /**
-     * Öppnar en anslutning mot sql-serven med JDBC4.0.
+     * Öppnar en anslutning mot sql-serven med JDBC 4.0.
      * @return En SQL-Anslutning
      * @throws SQLException 
      */
