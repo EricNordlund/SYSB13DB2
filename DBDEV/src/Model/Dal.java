@@ -7,11 +7,27 @@ import java.sql.*;
  * @author Eric
  */
 public class Dal {
-
+    private Connection con;
+    private Statement statement;
+    
+    
     /**
-     * Laddar drivrutinerna för att ansluta mot enn MS-databas med JBDC.
+     * Konstruktor: Initierar en anslutning mot servern samt laddar drivrutinerna och skapar en statement.
+     * @throws SQLException 
      */
-    public void loadDriverMSJDBC() {
+    public Dal() throws SQLException {
+        Dal.loadDriverMSJDBC();
+        this.con = Dal.openConnectionMSJDBC();
+        this.statement = con.createStatement();
+    }
+    
+    
+    
+    
+    /**
+     * Laddar drivrutinerna för att ansluta mot en MS-databas med JBDC 4.0.
+     */
+    private static void loadDriverMSJDBC() {
 
         try {
 
@@ -24,18 +40,17 @@ public class Dal {
         }
     }
 
+    
     /**
      * Öppnar en anslutning mot sql-serven med JDBC4.0.
+     * @return En SQL-Anslutning
+     * @throws SQLException 
      */
-    public Connection openConnectionMSJDBC() throws SQLException {
-
-        
-        
+    private static Connection openConnectionMSJDBC() throws SQLException {
+     
         String serverURL = "jdbc:sqlserver://localhost;database=150220-ericdev;";
         String serverLogon = "150220_od57594";
         String serverPassword = "EttLosenord123";
-
-
 
         Connection sqlConnection = DriverManager.getConnection(serverURL, serverLogon, serverPassword);
         System.out.println("Connection oppened");
@@ -43,20 +58,35 @@ public class Dal {
         return sqlConnection;
     }
     
+    
+    private void sendQuery(String query) throws SQLException {
+        
+        statement.executeQuery(query);
+        
+    }
+    
+    
+    private ResultSet getQuery(String query) throws SQLException {
+        
+        ResultSet result = statement.executeQuery(query);
+        return result;
+        
+    }
+    
+    
     /**
      * 
-     * @param connection
-     * @return Returnerar namnet på den första studenten.
+     * @param Anslutning 
+     * @param Student
+     * @return Returnerar information om en student i ett studentobjekt.
      * @throws SQLException 
      */
-    public String getStudentName(Connection con) throws SQLException {
+    public String getStudentInformation(Student student) throws SQLException {
         
-        Statement query = con.createStatement();
-                
-        ResultSet result = query.executeQuery("SELECT * FROM STUDENT");
+        String query = "SELECT * FROM student WHERE" + student.studentID;
+        ResultSet result = this.getQuery(query);
         
         result.next();
-        
         return result.getString("name");
         
         

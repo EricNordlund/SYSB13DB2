@@ -8,17 +8,25 @@ import java.sql.*;
  */
 public class defaultRun {
 
+    /**
+     *
+     * @param args
+     * @throws SQLException
+     */
     public static void main(String[] args) throws SQLException {
 
         Dal dal = new Dal();
-
-        dal.loadDriverMSJDBC();
-
-        Connection con = dal.openConnectionMSJDBC();
-
-        System.out.println(dal.getStudentName(con));
         
-        con.close();
+        Student student = new Student();
+        student.studentID = 1;
+        
+        
+        System.out.println(dal.getStudentInformation(student));
+
+        
+
+        
+        
 
     }
 }
