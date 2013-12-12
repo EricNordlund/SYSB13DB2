@@ -59,14 +59,14 @@ public class Dal {
     }
     
     
-    private void sendQuery(String query) throws SQLException {
+    public void sendQuery(String query) throws SQLException {
         
         statement.executeQuery(query);
         
     }
     
     
-    private ResultSet getQuery(String query) throws SQLException {
+    public ResultSet getQuery(String query) throws SQLException {
         
         ResultSet result = statement.executeQuery(query);
         return result;
@@ -81,7 +81,7 @@ public class Dal {
      * @return Returnerar information om en student i ett studentobjekt.
      * @throws SQLException 
      */
-    public String getStudentInformation(Student student) throws SQLException {
+    private String getStudentInformation(Student student) throws SQLException {
         
         String query = "SELECT * FROM student WHERE" + student.studentID;
         ResultSet result = this.getQuery(query);

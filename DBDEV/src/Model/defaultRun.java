@@ -15,13 +15,11 @@ public class defaultRun {
      */
     public static void main(String[] args) throws SQLException {
 
-        Dal dal = new Dal();
+        
         
         Student student = new Student();
-        student.studentID = 1;
         
-        
-        System.out.println(dal.getStudentInformation(student));
+        System.out.println(student.getSingleStudent(1));
 
         
 
