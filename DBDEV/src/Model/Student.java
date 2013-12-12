@@ -57,9 +57,26 @@ public class Student {
         System.out.println("Updated student " + studentID + ".");
     }
     
+    /**
+     * Skapar en student i tabellen Student
+     * @param name Namnet på den nye studenten.
+     * @param adress Adressen på den nye studenten.
+     * @throws SQLException 
+     */
     public void insertStudent(String name, String adress) throws SQLException {
         String query = "INSERT INTO student (name, adress) VALUES('" + name + "', '" + adress + "')";
         dal.sendQuery(query);
         System.out.println("Registered new student.");
+    }
+    
+    /**
+     * Tar bort en student från databasen.
+     * @param studentID ID på den student som skall tas bort. 
+     * @throws SQLException 
+     */
+    public void removeStudent(int studentID) throws SQLException {
+        String query = "DELETE FROM student WHERE studentID = " + studentID;
+        dal.sendQuery(query);
+        System.out.println("Removed student " + studentID + ".");
     }
 }
