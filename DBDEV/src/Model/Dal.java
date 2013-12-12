@@ -61,7 +61,7 @@ public class Dal {
     
     public void sendQuery(String query) throws SQLException {
         
-        statement.executeQuery(query);
+        statement.execute(query);
         
     }
     
@@ -75,20 +75,12 @@ public class Dal {
     
     
     /**
-     * 
-     * @param Anslutning 
-     * @param Student
-     * @return Returnerar information om en student i ett studentobjekt.
-     * @throws SQLException 
-     */
-    private String getStudentInformation(Student student) throws SQLException {
+     * Stänger anslutningen mot sql-servern.
+     * @throws SQLException
+     */    
+    public void closeConnection() throws SQLException {
         
-        String query = "SELECT * FROM student WHERE" + student.studentID;
-        ResultSet result = this.getQuery(query);
-        
-        result.next();
-        return result.getString("name");
-        
+        this.con.close();
         
     }
     

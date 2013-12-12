@@ -31,23 +31,35 @@ public class Student {
     }
      
     
-    //Inte helt klar, jobbar på att få den att automatiskt skriva ut tabellen utan att antalet 
-    //kolumner i svaret spelar någon roll.
-    public String getSingleStudent(int studentID) throws SQLException
-    {
+    /**
+     * En funktion som hämtar samtlig data för en student.
+     * @param studentID ID på den student som är av intresse.
+     * @return Samtliga data i form av ett resultset.
+     * @throws SQLException 
+     */
+    public ResultSet getSingleStudent(int studentID) throws SQLException {
         String query = "SELECT * FROM student WHERE" + studentID;
-        String resultString = null;
-        
         ResultSet result = dal.getQuery(query);
-        result.next();
-      /*  for(int i=1; i <= result.getMetaData().getColumnCount(); i++)
-        {
-            resultString = result.getString(i);
-            resultString = " ";
-        }
+        return result;
         
-        System.out.println(result.getMetaData().getColumnCount());*/
-        return resultString;
     }
     
+    /**
+     * Uppdaterar uppgifterna för en student
+     * @param studentID ID på studenten som skall uppdateras.
+     * @param name Det nya eller förändrade namnet.
+     * @param adress Den nya eller förändrade adressen. 
+     * @throws SQLException 
+     */
+    public void modifyStudent(int studentID, String name, String adress) throws SQLException {
+        String query = "UPDATE student SET name='" + name + "', adress='" + adress + "' WHERE studentID='" + studentID + "'";
+        dal.sendQuery(query);
+        System.out.println("Updated student " + studentID + ".");
+    }
+    
+    public void insertStudent(String name, String adress) throws SQLException {
+        String query = "INSERT INTO student (name, adress) VALUES('" + name + "', '" + adress + "')";
+        dal.sendQuery(query);
+        System.out.println("Registered new student.");
+    }
 }

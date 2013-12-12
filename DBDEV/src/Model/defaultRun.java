@@ -19,10 +19,12 @@ public class defaultRun {
         
         Student student = new Student();
         
-        System.out.println(student.getSingleStudent(1));
-
         
 
+        
+        
+        Dal dal = new Dal();
+        dal.closeConnection();
         
         
 
