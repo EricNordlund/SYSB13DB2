@@ -61,7 +61,7 @@ public class Dal {
     
     public void sendQuery(String query) throws SQLException {
         
-        statement.execute(query);
+        statement.executeUpdate(query);
         
     }
     
