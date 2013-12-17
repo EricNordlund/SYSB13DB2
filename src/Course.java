@@ -1,5 +1,7 @@
 package Model;
 
+//Hej och håååååå!
+
 import java.sql.*;
 
 public class Course {
