@@ -27,7 +27,8 @@ public class Student {
     {
         String query = "SELECT * FROM student";
         ResultSet result = dal.getQuery(query);
-        return result;
+        System.out.println("Getting student list.");
+        return result;  
     }
      
     
