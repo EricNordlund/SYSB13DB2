@@ -190,4 +190,10 @@ public class Dal {
         System.out.println("Added student to course.");
     }
     
+    public void removeStudentReading(int studentID, int courseID) throws SQLException {
+        String query ="DELETE FROM reading WHERE studentID = '" + studentID +"' AND courseID = '" + courseID +"'";
+        sendQuery(query);
+        System.out.println("Removed student from course.");
+    }
+    
 }
