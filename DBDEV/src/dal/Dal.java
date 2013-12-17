@@ -219,4 +219,62 @@ public class Dal {
     
     }
     
+    /**
+     * ********************************************************************************************
+     * ********************************Read Querys**********************************************
+     * ********************************************************************************************
+     */
+    
+    
+    /**
+     * Borttagning av kurs.
+     * @param courseId
+     * @throws SQLException 
+     */
+    public void removeCourse(int courseId) throws SQLException {
+        String query = "delete from course where courseId = " + courseId;
+        sendQuery(query);
+        System.out.println("Removed course: " + courseId);
+    }
+
+    /**
+     * Hitta en kurs och dess information
+     * @param courseId
+     * @throws SQLException 
+     */
+    public ResultSet findCourse(int courseId) throws SQLException {
+        String query = "select * from course where courseId = " + courseId;
+        ResultSet result = getQuery(query);
+        return result;
+    }
+
+    /**
+     * Registrering av kurs
+     * @param courseName
+     * @param coursePoints
+     * @throws SQLException 
+     */
+    public void addCourse(String courseName,
+            String coursePoints) throws SQLException {
+        String query
+                = "insert into student (courseName, coursePoints) values ('"
+                + courseName + "', '" + coursePoints + "')";
+        sendQuery(query);
+        System.out.println("Registered new course: " + courseName);
+    }
+
+    /**
+     * Visa resultat för angiven kurs.
+     * @param courseId
+     * @throws SQLException 
+     */
+    public ResultSet showResult(int courseId) throws SQLException {
+            String query = "select studentName, coursePoints from course c join student s on";
+            ResultSet result = getQuery(query);
+            return result;
+    }
+
+    
+    
+    
 }
