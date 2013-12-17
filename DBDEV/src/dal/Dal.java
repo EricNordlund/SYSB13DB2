@@ -191,9 +191,32 @@ public class Dal {
     }
     
     public void removeStudentReading(int studentID, int courseID) throws SQLException {
-        String query ="DELETE FROM reading WHERE studentID = '" + studentID +"' AND courseID = '" + courseID +"'";
+        String query = "DELETE FROM reading WHERE studentID = '" + studentID +"' AND courseID = '" + courseID +"'";
         sendQuery(query);
         System.out.println("Removed student from course.");
+    }
+    
+    /**
+     * ********************************************************************************************
+     * ********************************Read Querys**********************************************
+     * ********************************************************************************************
+     */
+    
+     public void addStudentRead(int studentID, int courseID, int grade) throws SQLException {
+        String query = "DELETE FROM reading WHERE studentID = '" + studentID +"' AND courseID = '" + courseID +"'";
+        sendQuery(query);
+        
+        query = "INSERT INTO haveRead (studentID, courseID, grade) VALUES('" + studentID +"', '" + courseID +"', '" + grade +"')";
+        sendQuery(query);
+        
+        System.out.println("Ended course for student.");
+    }
+    
+    public void removeStudentRead(int studentID, int courseID) throws SQLException {
+        String query ="DELETE FROM reading WHERE studentID = '" + studentID +"' AND courseID = '" + courseID +"'";
+        sendQuery(query);
+        System.out.println("Ended course for student.");
+    
     }
     
 }
