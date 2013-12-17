@@ -90,7 +90,7 @@ public class Dal {
         
     }
     
-        /*
+     /**
      * ********************************************************************************************
      * ********************************STUDENT QUERYS**********************************************
      * ********************************************************************************************
@@ -159,5 +159,35 @@ public class Dal {
         System.out.println("Removed student " + studentID + ".");
     }
     
+    /**
+     * Söker efter en speciell student. Söker endast efter det specifika studentIDt, inga wildcards där med andra ord.
+     * @param searchString Det som funktionen skall söka efter.
+     * @return Resultset med samtliga studenter som motsvarar sökningen.
+     * @throws SQLException
+     */
+    public ResultSet searchForStudent(String searchString) throws SQLException {
+        String query = "SELECT * FROM student WHERE studentID LIKE '" + searchString +"' OR name LIKE '%" + searchString +"%' OR adress LIKE '%" + searchString +"%'";
+        ResultSet result = getQuery(query);
+        if(!result.next())
+        {
+            System.out.println("Search returned empty.");
+            return null;
+        }
+        return result;       
+    }
+    
+    
+    
+    /**
+     * ********************************************************************************************
+     * ********************************Reading Querys**********************************************
+     * ********************************************************************************************
+     */
+    
+    public void addStudentReading(int studentID, int courseID ) throws SQLException {
+        String query = "INSERT INTO reading (studentID, courseID) VALUES('" + studentID +"', '" + courseID +"')";
+        sendQuery(query);
+        System.out.println("Added student to course.");
+    }
     
 }
