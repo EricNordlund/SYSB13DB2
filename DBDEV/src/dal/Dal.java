@@ -103,7 +103,7 @@ public class Dal {
      */
     public ResultSet getAllStudents() throws SQLException
     {
-        String query = "SELECT * FROM student";
+        String query = "SELECT studentID StudentID, name Name, adress Adress FROM student";
         ResultSet result = getQuery(query);
         System.out.println("Getting student list.");
         return result;  
@@ -221,7 +221,7 @@ public class Dal {
     
     /**
      * ********************************************************************************************
-     * ********************************Read Querys**********************************************
+     * ********************************Course Querys**********************************************
      * ********************************************************************************************
      */
     
@@ -256,9 +256,7 @@ public class Dal {
      */
     public void addCourse(String courseName,
             String coursePoints) throws SQLException {
-        String query
-                = "insert into student (courseName, coursePoints) values ('"
-                + courseName + "', '" + coursePoints + "')";
+        String query = "insert into student (courseName, coursePoints) values ('" + courseName + "', '" + coursePoints + "')";
         sendQuery(query);
         System.out.println("Registered new course: " + courseName);
     }
@@ -268,13 +266,11 @@ public class Dal {
      * @param courseId
      * @throws SQLException 
      */
-    public ResultSet showResult(int courseId) throws SQLException {
-            String query = "select studentName, coursePoints from course c join student s on";
+    public ResultSet showCourseResult(int courseID) throws SQLException {
+            String query = "SELECT st.name Name, rd.grade Grade FROM student st INNER JOIN (SELECT studentID, grade FROM haveRead WHERE courseID = '" + courseID + "') AS rd ON st.studentID = rd.studentID";
             ResultSet result = getQuery(query);
             return result;
     }
 
-    
-    
-    
+      
 }
