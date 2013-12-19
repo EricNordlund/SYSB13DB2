@@ -266,11 +266,76 @@ public class Dal {
      * @param courseId
      * @throws SQLException 
      */
-    public ResultSet showCourseResult(int courseID) throws SQLException {
-            String query = "SELECT st.name Name, rd.grade Grade FROM student st INNER JOIN (SELECT studentID, grade FROM haveRead WHERE courseID = '" + courseID + "') AS rd ON st.studentID = rd.studentID";
+    public ResultSet getCourseResult(int courseID) throws SQLException {
+            String query = "SELECT st.studentID StudentID ,st.name Name, rd.grade Grade FROM student st INNER JOIN (SELECT studentID, grade FROM haveRead WHERE courseID = '" + courseID + "') AS rd ON st.studentID = rd.studentID";
             ResultSet result = getQuery(query);
             return result;
     }
+    
+    
+    /**
+     * Hämtar samtliga studenter som läser en kurs.
+     * @param courseID ID på den kurs som är av intresse.
+     * @return 
+     * @throws SQLException 
+     */
+    public ResultSet getReadingStudents(int courseID) throws SQLException {
+        String query ="SELECT st.studentID StudentID, st.name Name FROM student st INNER JOIN (SELECT studentID FROM reading WHERE courseID = '" + courseID + "') AS rd ON st.studentID = rd.studentID";
+        ResultSet result = getQuery(query);
+        return result;
+    }
+    
+    
+    /**
+     * Hämtar samtliga studenter som har betyg A i en kurs.
+     * @param courseID
+     * @return
+     * @throws SQLException 
+     */
+    public ResultSet getAStudents(int courseID) throws SQLException {
+        String query ="SELECT st.studentID StudentID, st.name Name FROM student st INNER JOIN (SELECT studentID FROM haveRead WHERE courseID = '" + courseID + "' AND grade = '6') AS rd ON st.studentID = rd.studentID";
+        ResultSet result = getQuery(query);
+        return result;
+    }
 
-      
+    /**
+     * Retunerar antalet studenter med A i betyg på en kurs.
+     * @param courseID
+     * @return Procenten returneras i ett heltal mellan 0 och 100.
+     * @throws SQLException 
+     */
+    public ResultSet getPercentageAStudents(int courseID) throws SQLException {
+        String query = "SELECT (SELECT count(studentID) FROM haveRead WHERE courseID = '" + courseID + "' AND grade = '6') * 100 / (SELECT count(studentID) FROM haveRead WHERE courseID = '" + courseID + "') AS Percentage";
+        ResultSet result = getQuery(query);
+        return result;            
+    }   
+     
+   /**
+    * Retunerar en tabell med samtliga kurser med den högsta genomströmningen överst.
+    * @return
+    * @throws SQLException 
+    */ 
+    public ResultSet getCourseThroughput() throws SQLException {
+        String query = "SELECT courseID CourseID, count(studentID) Students FROM (SELECT * FROM haveRead WHERE grade > 0) AS CD GROUP BY courseID ORDER BY Students DESC";
+        ResultSet result = getQuery(query);
+        return result;    
+    }
+    
+    
+    /**
+     * Hämtar en lista på de kurser en specifik student avslutat inkluderat betygen.
+     * @param studentID
+     * @return
+     * @throws SQLException 
+     */
+    public ResultSet getStudentResults(int studentID) throws SQLException {
+        String query = "SELECT cr.courseID CourseID, cr.name CourseName, grade Grade FROM course cr INNER JOIN (SELECT courseID, grade FROM haveRead WHERE studentID = '" + studentID + "') AS rd ON cr.courseID = rd.courseID";
+        ResultSet result = getQuery(query);
+        return result; 
+    }
+    
+    
+    
+    
+    
 }
