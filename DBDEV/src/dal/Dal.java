@@ -7,9 +7,8 @@ import java.sql.*;
  * @author Eric
  */
 public class Dal {
-    private Connection con;
+    private Connection con = null;
     private Statement statement;
-    
     
     /*
      * ********************************************************************************************
@@ -22,22 +21,20 @@ public class Dal {
      * @throws SQLException 
      */
     public Dal() throws SQLException {
-        Dal.loadDriverMSJDBC();
-        this.con = Dal.openConnectionMSJDBC();
+        Dal.loadDriver();
+        this.con = Dal.openConnection();
         this.statement = con.createStatement();
     }
-    
-    
     
     
     /**
      * Laddar drivrutinerna för att ansluta mot en MS-databas med JBDC 4.0.
      */
-    private static void loadDriverMSJDBC() {
+    private static void loadDriver() {
 
         try {
 
-            DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             System.out.println("SQL-driver loaded");
         } catch (Exception errorMessage) {
 
@@ -52,14 +49,14 @@ public class Dal {
      * @return En SQL-Anslutning
      * @throws SQLException 
      */
-    private static Connection openConnectionMSJDBC() throws SQLException {
-     
-        String serverURL = "jdbc:sqlserver://localhost;database=150220-ericdev;";
-        String serverLogon = "150220_od57594";
-        String serverPassword = "EttLosenord123";
+    private static Connection openConnection() throws SQLException {
+
+        String serverURL = "jdbc:mysql://localhost:8889/dbproject";
+        String serverLogon = "root";
+        String serverPassword = "root";
 
         Connection sqlConnection = DriverManager.getConnection(serverURL, serverLogon, serverPassword);
-        System.out.println("Connection oppened");
+        System.out.println("Connection opened");
 
         return sqlConnection;
     }
@@ -117,9 +114,11 @@ public class Dal {
      * @throws SQLException 
      */
     public ResultSet getSingleStudent(int studentID) throws SQLException {
-        String query = "SELECT * FROM student WHERE" + studentID;
+        String query = "SELECT * FROM student WHERE studentID='"+studentID+"'";
         ResultSet result = getQuery(query);
+        System.out.println("getSingleStudent done");
         return result;
+        
         
     }
     
