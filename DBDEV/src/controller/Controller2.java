@@ -54,6 +54,18 @@ public class Controller2 {
         
     }
     
+     public ResultSet getStudentResults(int studentID) throws SQLException {
+
+        ResultSet rs = dal.getStudentResults(studentID);
+        return rs;
+    }
+     
+    public ResultSet getStudentsOngoingCourses(int studentID) throws SQLException {
+
+        ResultSet rs = dal.getStudentsOngoingCourses(studentID);
+        return rs;
+    }
+    
     public void addStudentReading(int studentID, int courseID ) throws SQLException {
         dal.addStudentReading(studentID, courseID);
     }

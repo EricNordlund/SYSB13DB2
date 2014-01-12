@@ -328,12 +328,16 @@ public class Dal {
      * @throws SQLException 
      */
     public ResultSet getStudentResults(int studentID) throws SQLException {
-        String query = "SELECT cr.courseID CourseID, cr.name CourseName, grade Grade FROM course cr INNER JOIN (SELECT courseID, grade FROM haveRead WHERE studentID = '" + studentID + "') AS rd ON cr.courseID = rd.courseID";
+        String query = "SELECT cr.courseID CourseID, cr.name Name, grade Grade FROM course cr INNER JOIN (SELECT courseID, grade FROM haveRead WHERE studentID = '" + studentID + "') AS rd ON cr.courseID = rd.courseID";
         ResultSet result = getQuery(query);
         return result; 
     }
     
-    
+    public ResultSet getStudentsOngoingCourses(int studentID) throws SQLException {
+        String query = "SELECT cr.courseID CourseID, cr.name Name, cr.points Points FROM course cr INNER JOIN (SELECT courseID, studentID FROM reading WHERE studentID = '" + studentID + "') AS rd ON cr.courseID = rd.courseID";
+        ResultSet result = getQuery(query);
+        return result; 
+    }
     
     
     
