@@ -2,7 +2,8 @@
 
 package Controller;
 import Dal.Dal;
-import java.sql.SQLException;
+import View.MainWindow;
+import java.sql.*;
 
 
 /**
@@ -11,10 +12,23 @@ import java.sql.SQLException;
  */
 public class Main {
     
-    public static void main(String[] args)
+    public static void main(String[] args) throws SQLException
     {
-    
-        Dal dal = new Dal();
+        Controller controller = new Controller();
+        
+        MainWindow view = new MainWindow();
+        view.setController(controller);
+        
+        view.setVisible(true);
+        
+        
+        /**
+        ResultSet rs = dal.getTest();
+        rs.next();
+        System.out.println(rs.getString("First Name"));
+        */
+        
+        
         
     }
 }
