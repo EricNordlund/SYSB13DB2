@@ -16,9 +16,12 @@ public class Dal {
     
     public Dal()
     {
-        String user = "sa";
-        String passw = "aiel1234";
-        String url = "jdbc:sqlserver://127.0.0.1;databaseName=Navision";
+        //Skapar objektet med loginkonfiguration.
+        SQLdata sqld = new SQLdata();
+        
+        String user = sqld.getLogin();
+        String passw = sqld.getPassw();
+        String url = sqld.getUrl();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException ex) {
