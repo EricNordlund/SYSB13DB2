@@ -23,7 +23,35 @@ public class Controller
         return dal.getTableMetaData(tableName);
     }
     
+    public ResultSet getDBKeys()
+    {
+        return dal.getDBKeys();
+    }
     
+    public ResultSet getDBIndexes()
+    {
+        return dal.getDBIndexes();
+    }
+    
+    public ResultSet getDBConstraints()
+    {
+        return dal.getDBConstraints();
+    }
+    
+    public ResultSet getDBTables()
+    {
+        return dal.getDBTables();
+    }
+    
+    public ResultSet getDBTablesAlternative()
+    {
+        return dal.getDBTablesAlternative();
+    }
+    
+    public ResultSet getDBTableMostRows()
+    {
+        return dal.getDBTableMostRows();
+    }
     
     
 }

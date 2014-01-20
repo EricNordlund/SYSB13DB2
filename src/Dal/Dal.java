@@ -71,9 +71,47 @@ public class Dal {
      */
     public ResultSet getTableMetaData(String tableName)
     {
-        String query = "SELECT COLUMN_NAME as Kolumnnamn, IS_NULLABLE as 'Kan vara NULL', DATA_TYPE as Datatyp, CHARACTER_MAXIMUM_LENGTH as Storlek, COLLATION_NAME as Koallitionsnamn FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CRONUS Sverige AB$" + tableName + "'";
+        String query = "SELECT COLUMN_NAME as 'Column name', IS_NULLABLE as 'Is null', DATA_TYPE as 'Data type', CHARACTER_MAXIMUM_LENGTH as Size, COLLATION_NAME as 'Coallition namne' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CRONUS Sverige AB$" + tableName + "'";
         return getQuery(query);
     }
+    
+    public ResultSet getDBKeys()
+    {
+        String query = "SELECT object_id as ID, name as Name FROM sys.key_constraints";
+        return getQuery(query);
+    }
+    
+    public ResultSet getDBIndexes()
+    {
+        String query = "SELECT object_id as ID, name as Name FROM sys.indexes";
+        return getQuery(query);
+    }
+    
+    public ResultSet getDBConstraints()
+    {
+        String query = "SELECT CONSTRAINT_NAME as Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS";
+        return getQuery(query);
+    }
+    
+    public ResultSet getDBTables()
+    {
+        String query = "SELECT TABLE_NAME as Name FROM INFORMATION_SCHEMA.TABLES";
+        return getQuery(query);
+    }
+    
+    public ResultSet getDBTablesAlternative()
+    {
+        String query = "SELECT object_id as ID, name as Name FROM sys.tables";
+        return getQuery(query);
+    }
+    
+    public ResultSet getDBTableMostRows()
+    {
+        String query = "SELECT TOP 1 o.name as Name, MAX(i.rows) as Rows FROM sysobjects o, sysindexes i WHERE o.xtype = 'U' AND i.id = OBJECT_ID(o.name) GROUP BY o.name ORDER BY 2 DESC";
+        return getQuery(query);
+    }
+    
+    
     
     
     

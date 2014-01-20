@@ -8,11 +8,74 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="exit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exit"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[0, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="text" type="java.lang.String" value="Database"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBKeys">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Keys"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBKeysActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBIndexes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Indexes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBIndexesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBConstraints">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Constraints"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBConstraintsActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBTables">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Tables"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBTablesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBTablesAlternative">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Tables (Alternative)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBTablesAlternativeActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="showDBMostPopulatedTable">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Table (Max rows)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDBMostPopulatedTableActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
@@ -70,7 +133,6 @@
                       <Component id="tableMenu" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="dataButton" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="metaButton" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
-                      <Component id="metaDBButton" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="tableScroll" min="-2" pref="720" max="-2" attributes="0"/>
@@ -88,8 +150,6 @@
                   <Component id="dataButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="metaButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="metaDBButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -129,7 +189,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="dataButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data Tabell"/>
+            <Property name="text" type="java.lang.String" value="Data"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dataButtonActionPerformed"/>
@@ -137,21 +197,16 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lableTabell">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tabell"/>
+            <Property name="text" type="java.lang.String" value="Table"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="metaButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Metadata Tabell"/>
+            <Property name="text" type="java.lang.String" value="Meta data"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="metaButtonActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="metaDBButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Metadata Databas"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

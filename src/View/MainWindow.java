@@ -120,10 +120,16 @@ Controller controller;
         dataButton = new javax.swing.JButton();
         lableTabell = new javax.swing.JLabel();
         metaButton = new javax.swing.JButton();
-        metaDBButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        exit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        showDBKeys = new javax.swing.JMenuItem();
+        showDBIndexes = new javax.swing.JMenuItem();
+        showDBConstraints = new javax.swing.JMenuItem();
+        showDBTables = new javax.swing.JMenuItem();
+        showDBTablesAlternative = new javax.swing.JMenuItem();
+        showDBMostPopulatedTable = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Navision DB viewer");
@@ -149,23 +155,21 @@ Controller controller;
             }
         });
 
-        dataButton.setText("Data Tabell");
+        dataButton.setText("Data");
         dataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dataButtonActionPerformed(evt);
             }
         });
 
-        lableTabell.setText("Tabell");
+        lableTabell.setText("Table");
 
-        metaButton.setText("Metadata Tabell");
+        metaButton.setText("Meta data");
         metaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 metaButtonActionPerformed(evt);
             }
         });
-
-        metaDBButton.setText("Metadata Databas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,8 +180,7 @@ Controller controller;
                     .addComponent(lableTabell)
                     .addComponent(tableMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dataButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(metaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(metaDBButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(metaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -192,15 +195,72 @@ Controller controller;
                 .addComponent(dataButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(metaButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(metaDBButton)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
+
+        exit.setText("Exit");
+        exit.setMinimumSize(new java.awt.Dimension(0, 30));
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exit);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Database");
+
+        showDBKeys.setText("Show Keys");
+        showDBKeys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBKeysActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBKeys);
+
+        showDBIndexes.setText("Show Indexes");
+        showDBIndexes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBIndexesActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBIndexes);
+
+        showDBConstraints.setText("Show Constraints");
+        showDBConstraints.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBConstraintsActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBConstraints);
+
+        showDBTables.setText("Show Tables");
+        showDBTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBTablesActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBTables);
+
+        showDBTablesAlternative.setText("Show Tables (Alternative)");
+        showDBTablesAlternative.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBTablesAlternativeActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBTablesAlternative);
+
+        showDBMostPopulatedTable.setText("Show Table (Max rows)");
+        showDBMostPopulatedTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDBMostPopulatedTableActionPerformed(evt);
+            }
+        });
+        jMenu2.add(showDBMostPopulatedTable);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -238,6 +298,34 @@ Controller controller;
     private void metaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metaButtonActionPerformed
         resultSetToTable(controller.getTableMetaData(getMenuString()), false);
     }//GEN-LAST:event_metaButtonActionPerformed
+
+    private void showDBKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBKeysActionPerformed
+         resultSetToTable(controller.getDBKeys(), false);
+    }//GEN-LAST:event_showDBKeysActionPerformed
+
+    private void showDBIndexesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBIndexesActionPerformed
+         resultSetToTable(controller.getDBIndexes(), false);
+    }//GEN-LAST:event_showDBIndexesActionPerformed
+
+    private void showDBConstraintsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBConstraintsActionPerformed
+         resultSetToTable(controller.getDBConstraints(), false);
+    }//GEN-LAST:event_showDBConstraintsActionPerformed
+
+    private void showDBTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBTablesActionPerformed
+         resultSetToTable(controller.getDBTables(), false);
+    }//GEN-LAST:event_showDBTablesActionPerformed
+
+    private void showDBTablesAlternativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBTablesAlternativeActionPerformed
+         resultSetToTable(controller.getDBTablesAlternative(), false);
+    }//GEN-LAST:event_showDBTablesAlternativeActionPerformed
+
+    private void showDBMostPopulatedTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBMostPopulatedTableActionPerformed
+         resultSetToTable(controller.getDBTableMostRows(), false);
+    }//GEN-LAST:event_showDBMostPopulatedTableActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        System.exit(1);
+    }//GEN-LAST:event_exitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,13 +365,19 @@ Controller controller;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dataButton;
     private javax.swing.JTable dataTable;
+    private javax.swing.JMenuItem exit;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lableTabell;
     private javax.swing.JButton metaButton;
-    private javax.swing.JButton metaDBButton;
+    private javax.swing.JMenuItem showDBConstraints;
+    private javax.swing.JMenuItem showDBIndexes;
+    private javax.swing.JMenuItem showDBKeys;
+    private javax.swing.JMenuItem showDBMostPopulatedTable;
+    private javax.swing.JMenuItem showDBTables;
+    private javax.swing.JMenuItem showDBTablesAlternative;
     private javax.swing.JComboBox tableMenu;
     private javax.swing.JScrollPane tableScroll;
     // End of variables declaration//GEN-END:variables
