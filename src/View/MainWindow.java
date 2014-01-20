@@ -37,9 +37,11 @@ Controller controller;
     }
     
     /**
-     * Tar ett resultset och skickar till tabellen.
+     * Converts a resultset into a tablemodel and inserts it into the jtable.
+     * @param rs The resultset to be used.
+     * @param tableData Boolean used to skip timestamp column.
      */
-    public void resultSetToTable(ResultSet rs) 
+    public void resultSetToTable(ResultSet rs, Boolean tableData) 
     {
         //Hämtar resultaten från employee-tabellen om rs är null
         if(rs == null)
@@ -50,19 +52,25 @@ Controller controller;
         
         
         //Skapar en vector med kolumnnamn
-        int numberOfColumns = 6;
+        int numberOfColumns = 5;
         if(rsmd.getColumnCount() < 5)
             numberOfColumns = rsmd.getColumnCount();
-        
+        else if(tableData)
+            numberOfColumns++;
+                
         Vector columnNames = new Vector();
-
-        // Hämtar namnet på varje kolumn, tvåan innebär att första kolumnen med timestamp hoppas över.
-        for (int column = 2; column <= numberOfColumns; column++) 
+        
+        //Used to skip the first column (timestamp) if the table is not a meta button.
+        int column = 1;
+        if(tableData)
+        column++;
+        // Hämtar namnet på varje kolumn.
+        for (; column <= numberOfColumns; column++) 
         {
             columnNames.addElement(rsmd.getColumnLabel(column));
         }
         
-        // Hämtar varje rad från tabellen
+        
         Vector dataRows = new Vector();
 
         //Hämtar data för varje ny rad. den börjar hämta vid kolumn två för att inte hämta timestamp.
@@ -70,7 +78,12 @@ Controller controller;
         {
             Vector newRow = new Vector();
             
-            for (int i = 2; i <= numberOfColumns; i++) 
+            //Used to skip the first column (timestamp) if the table is not a meta button.
+            int i = 1;
+            if(tableData)
+            i++;
+            
+            for (; i <= numberOfColumns; i++) 
             {
                 newRow.addElement(rs.getObject(i));
             }
@@ -146,6 +159,11 @@ Controller controller;
         lableTabell.setText("Tabell");
 
         metaButton.setText("Metadata Tabell");
+        metaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                metaButtonActionPerformed(evt);
+            }
+        });
 
         metaDBButton.setText("Metadata Databas");
 
@@ -209,13 +227,17 @@ Controller controller;
 
     private void dataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataButtonActionPerformed
     
-        resultSetToTable(controller.getTableData(getMenuString()));
+        resultSetToTable(controller.getTableData(getMenuString()), true);
         
     }//GEN-LAST:event_dataButtonActionPerformed
 
     private void tableMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableMenuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tableMenuActionPerformed
+
+    private void metaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metaButtonActionPerformed
+        resultSetToTable(controller.getTableMetaData(getMenuString()), false);
+    }//GEN-LAST:event_metaButtonActionPerformed
 
     /**
      * @param args the command line arguments

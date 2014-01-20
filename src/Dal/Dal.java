@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author JD-W
+ * @author Eric
  */
 public class Dal {
     
@@ -16,7 +16,7 @@ public class Dal {
     
     public Dal()
     {
-        //Skapar objektet med loginkonfiguration.
+        //Creates the logindata-object
         SQLdata sqld = new SQLdata();
         
         String user = sqld.getLogin();
@@ -60,7 +60,18 @@ public class Dal {
     
     public ResultSet getTableData(String tableName) 
     {
-        String query = "select * from dbo.\"CRONUS Sverige AB$" + tableName + "\"";
+        String query = "SELECT * FROM dbo.\"CRONUS Sverige AB$" + tableName + "\"";
+        return getQuery(query);
+    }
+    
+    /**
+     * Returns metadata for each column in a table.
+     * @param tableName Name of the identifying name of the table.
+     * @return -
+     */
+    public ResultSet getTableMetaData(String tableName)
+    {
+        String query = "SELECT COLUMN_NAME as Kolumnnamn, IS_NULLABLE as 'Kan vara NULL', DATA_TYPE as Datatyp, CHARACTER_MAXIMUM_LENGTH as Storlek, COLLATION_NAME as Koallitionsnamn FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CRONUS Sverige AB$" + tableName + "'";
         return getQuery(query);
     }
     

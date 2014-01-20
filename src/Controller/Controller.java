@@ -18,6 +18,11 @@ public class Controller
         return dal.getTableData(tableName);
     }
     
+    public ResultSet getTableMetaData(String tableName)
+    {
+        return dal.getTableMetaData(tableName);
+    }
+    
     
     
     

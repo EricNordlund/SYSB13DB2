@@ -18,7 +18,7 @@ public class Main {
         
         MainWindow view = new MainWindow();
         view.setController(controller);
-        view.resultSetToTable(null);
+        view.resultSetToTable(null, true);
         
         view.setVisible(true);
         
