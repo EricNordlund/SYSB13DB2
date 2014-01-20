@@ -36,6 +36,59 @@ Controller controller;
         return data;
     }
     
+    /**
+     * Tar ett resultset och skickar till tabellen.
+     */
+    public void resultSetToTable(ResultSet rs) 
+    {
+        //Hämtar resultaten från employee-tabellen om rs är null
+        if(rs == null)
+            rs = controller.getTableData(getMenuString());
+       try {        
+       
+        ResultSetMetaData rsmd = rs.getMetaData();
+        
+        
+        //Skapar en vector med kolumnnamn
+        int numberOfColumns = 6;
+        if(rsmd.getColumnCount() < 5)
+            numberOfColumns = rsmd.getColumnCount();
+        
+        Vector columnNames = new Vector();
+
+        // Hämtar namnet på varje kolumn, tvåan innebär att första kolumnen med timestamp hoppas över.
+        for (int column = 2; column <= numberOfColumns; column++) 
+        {
+            columnNames.addElement(rsmd.getColumnLabel(column));
+        }
+        
+        // Hämtar varje rad från tabellen
+        Vector dataRows = new Vector();
+
+        //Hämtar data för varje ny rad. den börjar hämta vid kolumn två för att inte hämta timestamp.
+        while (rs.next()) 
+        {
+            Vector newRow = new Vector();
+            
+            for (int i = 2; i <= numberOfColumns; i++) 
+            {
+                newRow.addElement(rs.getObject(i));
+            }
+
+            dataRows.addElement(newRow);
+        }
+        
+        
+        //Sätter ut den nya tabellen
+        DefaultTableModel dataTableModel = new DefaultTableModel(dataRows, columnNames);
+        dataTable.setModel(dataTableModel);
+        
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
 
     /**
@@ -60,6 +113,8 @@ Controller controller;
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Navision DB viewer");
+        setResizable(false);
 
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,7 +129,7 @@ Controller controller;
         ));
         tableScroll.setViewportView(dataTable);
 
-        tableMenu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Employee", "Employee Absence", "Employee Qualification", "Employee Relative" }));
+        tableMenu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Employee", "Employee Absence", "Employee Qualification", "Employee Relative", "Employee Statistics Group", "Employment Contract" }));
         tableMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tableMenuActionPerformed(evt);
@@ -99,16 +154,14 @@ Controller controller;
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tableMenu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(metaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lableTabell)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(metaDBButton, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lableTabell)
+                    .addComponent(tableMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(metaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(metaDBButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,49 +208,8 @@ Controller controller;
     }// </editor-fold>//GEN-END:initComponents
 
     private void dataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataButtonActionPerformed
-    try {        
-        ResultSet rs = controller.getTableData(getMenuString());
-        ResultSetMetaData rsmd = rs.getMetaData();
-        
-        
-        //Skapar en vector med kolumnnamn
-        int numberOfColumns = 5;
-        if(rsmd.getColumnCount() < 5)
-            numberOfColumns = rsmd.getColumnCount();
-        
-        Vector columnNames = new Vector();
-
-        // Hämtar namnet på varje kolumn, tvåan innebär att första kolumnen med timestamp hoppas över.
-        for (int column = 0; column < numberOfColumns; column++) 
-        {
-            columnNames.addElement(rsmd.getColumnLabel(column + 2));
-        }
-        
-        // Hämtar varje rad från tabellen
-        Vector dataRows = new Vector();
-
-        //Hämtar data för varje ny rad. +1 vid addElement gör att den första kolumnens data hoppas över.
-        while (rs.next()) 
-        {
-            Vector newRow = new Vector();
-            
-            for (int i = 1; i <= numberOfColumns; i++) 
-            {
-                newRow.addElement(rs.getObject(i+1));
-            }
-
-            dataRows.addElement(newRow);
-        }
-        
-        
-        //Sätter ut den nya tabellen
-        DefaultTableModel dataTableModel = new DefaultTableModel(dataRows, columnNames);
-        dataTable.setModel(dataTableModel);
-        
-    } catch (SQLException ex) {
-        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
+    
+        resultSetToTable(controller.getTableData(getMenuString()));
         
     }//GEN-LAST:event_dataButtonActionPerformed
 
