@@ -1,5 +1,3 @@
-
-
 package View;
 
 import Controller.Controller;
@@ -11,98 +9,116 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * Application GUI
+ *
+ * @author G14
+ */
 public class MainWindow extends javax.swing.JFrame {
-Controller controller;
-    
-    
+
+    Controller controller;
+
     public MainWindow() {
         initComponents();
-        
+
     }
-    
+
     /**
-     * Får controller-referensen som används för att hämta data.
-     * @param controller Controller-objektet.
+     * Sets the controller reference.
+     *
+     * @param controller The Controller reference.
      */
-    public void setController(Controller controller)
-    {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
-    
-    public String getMenuString()
-    {
-        String data =  (String)tableMenu.getSelectedItem();
+
+    /**
+     * Gets the value of the chosen menu item in the table menu.
+     *
+     * @return String Table name.
+     */
+    public String getMenuString() {
+        String data = (String) tableMenu.getSelectedItem();
         return data;
     }
-    
+
     /**
      * Converts a resultset into a tablemodel and inserts it into the jtable.
+     *
      * @param rs The resultset to be used.
      * @param tableData Boolean used to skip timestamp column.
      */
-    public void resultSetToTable(ResultSet rs, Boolean tableData) 
-    {
-        //Hämtar resultaten från employee-tabellen om rs är null
-        if(rs == null)
+    public void resultSetToTable(ResultSet rs, Boolean tableData) {
+        //Gets the results from the employee table if the ResultSet value is null. 
+        if (rs == null) {
             rs = controller.getTableData(getMenuString());
-       try {        
-       
-        ResultSetMetaData rsmd = rs.getMetaData();
-        
-        
-        //Skapar en vector med kolumnnamn
-        int numberOfColumns = 5;
-        if(rsmd.getColumnCount() < 5)
-            numberOfColumns = rsmd.getColumnCount();
-        else if(tableData)
-            numberOfColumns++;
-                
-        Vector columnNames = new Vector();
-        
-        //Used to skip the first column (timestamp) if the table is not a meta button.
-        int column = 1;
-        if(tableData)
-        column++;
-        // Hämtar namnet på varje kolumn.
-        for (; column <= numberOfColumns; column++) 
-        {
-            columnNames.addElement(rsmd.getColumnLabel(column));
         }
-        
-        
-        Vector dataRows = new Vector();
+        try {
 
-        //Hämtar data för varje ny rad. den börjar hämta vid kolumn två för att inte hämta timestamp.
-        while (rs.next()) 
-        {
-            Vector newRow = new Vector();
-            
-            //Used to skip the first column (timestamp) if the table is not a meta button.
-            int i = 1;
-            if(tableData)
-            i++;
-            
-            for (; i <= numberOfColumns; i++) 
-            {
-                newRow.addElement(rs.getObject(i));
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            //Creates a vector with columnnames. 
+            int numberOfColumns = 5;
+            if (rsmd.getColumnCount() < 5) {
+                numberOfColumns = rsmd.getColumnCount();
+            } else if (tableData) {
+                numberOfColumns++;
             }
 
-            dataRows.addElement(newRow);
+            Vector columnNames = new Vector();
+
+            //Used to skip the first column (timestamp) if the resultSet contains table data. (Not meta data)
+            int column = 1;
+            if (tableData) {
+                column++;
+            }
+
+            // Gets the name from every column
+            for (; column <= numberOfColumns; column++) {
+                columnNames.addElement(rsmd.getColumnLabel(column));
+            }
+
+            Vector dataRows = new Vector();
+
+            //Gets the data from every row in the ResultSet.
+            while (rs.next()) {
+                Vector newRow = new Vector();
+
+                //Used to skip the first column (timestamp) if the ResultSet contains data from a table.
+                int i = 1;
+                if (tableData) {
+                    i++;
+                }
+
+                for (; i <= numberOfColumns; i++) {
+                    newRow.addElement(rs.getObject(i));
+                }
+
+                dataRows.addElement(newRow);
+            }
+
+            //Inserts the new table model into the jtable.
+            DefaultTableModel dataTableModel = new DefaultTableModel(dataRows, columnNames);
+            dataTable.setModel(dataTableModel);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Unable to insert resultSet in to jtable", ex);
+            errorReport("Unable to insert resultSet in to jtable");
         }
-        
-        
-        //Sätter ut den nya tabellen
-        DefaultTableModel dataTableModel = new DefaultTableModel(dataRows, columnNames);
-        dataTable.setModel(dataTableModel);
-        
-        } catch (SQLException ex) 
-        {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
-    
-    
+
+    /**
+     * Opens the error dialog containing the appropriate message.
+     *
+     * @param message The message to be displayed.
+     */
+    private void errorReport(String message) {
+
+        errorMessage.setText(message);
+        errorDialog.setVisible(true);
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,6 +129,9 @@ Controller controller;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        errorDialog = new javax.swing.JDialog();
+        errorOkButton = new javax.swing.JButton();
+        errorMessage = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         tableScroll = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
@@ -130,6 +149,43 @@ Controller controller;
         showDBTables = new javax.swing.JMenuItem();
         showDBTablesAlternative = new javax.swing.JMenuItem();
         showDBMostPopulatedTable = new javax.swing.JMenuItem();
+
+        errorDialog.setAlwaysOnTop(true);
+        errorDialog.setMinimumSize(new java.awt.Dimension(300, 120));
+        errorDialog.setPreferredSize(new java.awt.Dimension(300, 120));
+
+        errorOkButton.setText("Ok");
+        errorOkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                errorOkButtonActionPerformed(evt);
+            }
+        });
+
+        errorMessage.setText("error");
+
+        javax.swing.GroupLayout errorDialogLayout = new javax.swing.GroupLayout(errorDialog.getContentPane());
+        errorDialog.getContentPane().setLayout(errorDialogLayout);
+        errorDialogLayout.setHorizontalGroup(
+            errorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(errorDialogLayout.createSequentialGroup()
+                .addGroup(errorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(errorDialogLayout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(errorOkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(errorDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(errorMessage)))
+                .addContainerGap(122, Short.MAX_VALUE))
+        );
+        errorDialogLayout.setVerticalGroup(
+            errorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, errorDialogLayout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(errorMessage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorOkButton)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Navision DB viewer");
@@ -286,9 +342,9 @@ Controller controller;
     }// </editor-fold>//GEN-END:initComponents
 
     private void dataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataButtonActionPerformed
-    
+
         resultSetToTable(controller.getTableData(getMenuString()), true);
-        
+
     }//GEN-LAST:event_dataButtonActionPerformed
 
     private void tableMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableMenuActionPerformed
@@ -300,32 +356,36 @@ Controller controller;
     }//GEN-LAST:event_metaButtonActionPerformed
 
     private void showDBKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBKeysActionPerformed
-         resultSetToTable(controller.getDBKeys(), false);
+        resultSetToTable(controller.getDBKeys(), false);
     }//GEN-LAST:event_showDBKeysActionPerformed
 
     private void showDBIndexesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBIndexesActionPerformed
-         resultSetToTable(controller.getDBIndexes(), false);
+        resultSetToTable(controller.getDBIndexes(), false);
     }//GEN-LAST:event_showDBIndexesActionPerformed
 
     private void showDBConstraintsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBConstraintsActionPerformed
-         resultSetToTable(controller.getDBConstraints(), false);
+        resultSetToTable(controller.getDBConstraints(), false);
     }//GEN-LAST:event_showDBConstraintsActionPerformed
 
     private void showDBTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBTablesActionPerformed
-         resultSetToTable(controller.getDBTables(), false);
+        resultSetToTable(controller.getDBTables(), false);
     }//GEN-LAST:event_showDBTablesActionPerformed
 
     private void showDBTablesAlternativeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBTablesAlternativeActionPerformed
-         resultSetToTable(controller.getDBTablesAlternative(), false);
+        resultSetToTable(controller.getDBTablesAlternative(), false);
     }//GEN-LAST:event_showDBTablesAlternativeActionPerformed
 
     private void showDBMostPopulatedTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDBMostPopulatedTableActionPerformed
-         resultSetToTable(controller.getDBTableMostRows(), false);
+        resultSetToTable(controller.getDBTableMostRows(), false);
     }//GEN-LAST:event_showDBMostPopulatedTableActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         System.exit(1);
     }//GEN-LAST:event_exitActionPerformed
+
+    private void errorOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorOkButtonActionPerformed
+        errorDialog.setVisible(false);
+    }//GEN-LAST:event_errorOkButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,6 +425,9 @@ Controller controller;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dataButton;
     private javax.swing.JTable dataTable;
+    private javax.swing.JDialog errorDialog;
+    private javax.swing.JLabel errorMessage;
+    private javax.swing.JButton errorOkButton;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

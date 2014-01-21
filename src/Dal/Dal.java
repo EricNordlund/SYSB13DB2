@@ -1,4 +1,3 @@
-
 package Dal;
 
 import java.sql.*;
@@ -6,116 +5,143 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * The DAL handles the connection between the software and the database.
  *
- * @author Eric
+ * @author G14
  */
 public class Dal {
-    
+
     private Connection con;
     private Statement statement;
-    
-    public Dal()
-    {
-        //Creates the logindata-object
+
+    /**
+     * The constructor, loads the database drivers, credentials and connects to
+     * the DB.
+     */
+    public Dal() {
+
         SQLdata sqld = new SQLdata();
-        
+
         String user = sqld.getLogin();
         String passw = sqld.getPassw();
         String url = sqld.getUrl();
+
+        //Loads the sql driver
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //Microsoft drivers: sqljdbc4.jar
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, "Failed to load SQL driver", ex);
+
         }
+        //Connects to the database.
         try {
             this.con = DriverManager.getConnection(url, user, passw);
             this.statement = con.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, "ERROR ERROR ERROR :)", ex);
+            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, "Failed to connect to database.", ex);
+
         }
         System.out.println("System message: Connection to DB complete.");
     }
-    
-    private void sendQuery(String query)
-    {
+
+    /**
+     * Updates the sql database by sending a query.
+     *
+     * @param query Query to send
+     * @return Returns a ResultSet
+     */
+    private ResultSet getQuery(String query) {
+
         try {
-            statement.executeUpdate(query);
-        } catch (SQLException ex) {
-            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-    }
-    
-    private ResultSet getQuery(String query) 
-    {    
-        
-        try {
-           ResultSet result = statement.executeQuery(query);
-           return result;   
+            ResultSet result = statement.executeQuery(query);
+            return result;
         } catch (SQLException ex) {
             Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-         
+
     }
-    
-    public ResultSet getTableData(String tableName) 
-    {
+
+    /**
+     * Gets the table data.
+     *
+     * @param tableName Name of the table.
+     * @return Returns a ResultSet.
+     */
+    public ResultSet getTableData(String tableName) {
         String query = "SELECT * FROM dbo.\"CRONUS Sverige AB$" + tableName + "\"";
         return getQuery(query);
     }
-    
+
     /**
      * Returns metadata for each column in a table.
+     *
      * @param tableName Name of the identifying name of the table.
-     * @return -
+     * @return A ResultSet.
      */
-    public ResultSet getTableMetaData(String tableName)
-    {
-        String query = "SELECT COLUMN_NAME as 'Column name', IS_NULLABLE as 'Is null', DATA_TYPE as 'Data type', CHARACTER_MAXIMUM_LENGTH as Size, COLLATION_NAME as 'Coallition namne' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CRONUS Sverige AB$" + tableName + "'";
+    public ResultSet getTableMetaData(String tableName) {
+        String query = "SELECT COLUMN_NAME AS 'Column name', IS_NULLABLE AS 'Is null', DATA_TYPE AS 'Data type', CHARACTER_MAXIMUM_LENGTH AS Size, COLLATION_NAME AS 'Coallition namne' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'CRONUS Sverige AB$" + tableName + "'";
         return getQuery(query);
     }
-    
-    public ResultSet getDBKeys()
-    {
-        String query = "SELECT object_id as ID, name as Name FROM sys.key_constraints";
+
+    /**
+     * Gets all the keys in the database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBKeys() {
+        String query = "SELECT object_id AS ID, name AS Name FROM sys.key_constraints";
         return getQuery(query);
     }
-    
-    public ResultSet getDBIndexes()
-    {
-        String query = "SELECT object_id as ID, name as Name FROM sys.indexes";
+
+    /**
+     * Gets all the indexes from the database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBIndexes() {
+        String query = "SELECT object_id AS ID, name AS Name FROM sys.indexes";
         return getQuery(query);
     }
-    
-    public ResultSet getDBConstraints()
-    {
-        String query = "SELECT CONSTRAINT_NAME as Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS";
+
+    /**
+     * Returns all the constraints from the database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBConstraints() {
+        String query = "SELECT CONSTRAINT_NAME AS Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS";
         return getQuery(query);
     }
-    
-    public ResultSet getDBTables()
-    {
-        String query = "SELECT TABLE_NAME as Name FROM INFORMATION_SCHEMA.TABLES";
+
+    /**
+     * Returns a list of the Tables in the database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBTables() {
+        String query = "SELECT TABLE_NAME AS Name FROM INFORMATION_SCHEMA.TABLES";
         return getQuery(query);
     }
-    
-    public ResultSet getDBTablesAlternative()
-    {
-        String query = "SELECT object_id as ID, name as Name FROM sys.tables";
+
+    /**
+     * Alternative way of returning all the tables in the Database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBTablesAlternative() {
+        String query = "SELECT object_id AS ID, name AS Name FROM sys.tables";
         return getQuery(query);
     }
-    
-    public ResultSet getDBTableMostRows()
-    {
-        String query = "SELECT TOP 1 o.name as Name, MAX(i.rows) as Rows FROM sysobjects o, sysindexes i WHERE o.xtype = 'U' AND i.id = OBJECT_ID(o.name) GROUP BY o.name ORDER BY 2 DESC";
+
+    /**
+     * Returns the table with the most rows from the database.
+     *
+     * @return A ResultSet.
+     */
+    public ResultSet getDBTableMostRows() {
+        String query = "SELECT TOP 1 o.name AS Name, MAX(i.rows) AS Rows FROM sysobjects o, sysindexes i WHERE o.xtype = 'U' AND i.id = OBJECT_ID(o.name) GROUP BY o.name ORDER BY 2 DESC";
         return getQuery(query);
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

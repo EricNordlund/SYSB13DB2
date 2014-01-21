@@ -1,35 +1,22 @@
-
-
 package Controller;
-import Dal.Dal;
-import View.MainWindow;
-import java.sql.*;
 
+import View.MainWindow;
 
 /**
+ * Initiates the controller and GUI.
  *
- * @author JD-W
+ * @author G14
  */
 public class Main {
-    
-    public static void main(String[] args) throws SQLException
-    {
-        Controller controller = new Controller();
-        
+
+    public static void main(String[] args) {
+
         MainWindow view = new MainWindow();
+        Controller controller = new Controller();
         view.setController(controller);
-        view.resultSetToTable(null, true);
-        
+        view.resultSetToTable(null, true); //Loads the initial table in the GUI
+
         view.setVisible(true);
-        
-        
-        /**
-        ResultSet rs = dal.getTest();
-        rs.next();
-        System.out.println(rs.getString("First Name"));
-        */
-        
-        
-        
+
     }
 }

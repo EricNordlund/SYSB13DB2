@@ -1,30 +1,26 @@
-
-
 package Dal;
 
 /**
- * Klassen är till för att kunna ändra ip och inloggning utan att ändra dalen.
+ * The class contains login information and the address to the database.
+ *
  * @author Eric
  */
-public class SQLdata 
-{
-    private String url =  "jdbc:sqlserver://127.0.0.1;databaseName=Navision";
+public class SQLdata {
+
+    private String url = "jdbc:sqlserver://127.0.0.1;databaseName=Navision";
     private String login = "sa";
     private String passw = "aiel1234";
 
-    public String getUrl() 
-    {
+    public String getUrl() {
         return url;
     }
 
-    public String getPassw() 
-    {
+    public String getPassw() {
         return passw;
     }
 
-    public String getLogin() 
-    {
+    public String getLogin() {
         return login;
     }
-    
+
 }

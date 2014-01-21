@@ -1,103 +1,98 @@
-
 package Controller;
 
 import Dal.Dal;
 import java.sql.ResultSet;
-import java.text.DecimalFormat;
+import View.MainWindow;
 
-public class Controller 
-{
+/**
+ * Controller class. Connection handler between the GUI and Controller.
+ * Functions described in other parts of the javadoc are missing comments.
+ *
+ * @author G14
+ */
+public class Controller {
+
     Dal dal;
-    long resTime;
+    MainWindow view;
+    long resTime; //Response time variable.
 
-    public Controller()
-    {
+    public Controller() {
         this.dal = new Dal();
+
     }
-    
-    public ResultSet getTableData(String tableName)
-    {
+
+    public ResultSet getTableData(String tableName) {
         responseTime(true);
         ResultSet result = dal.getTableData(tableName);
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getTableMetaData(String tableName)
-    {
+
+    public ResultSet getTableMetaData(String tableName) {
         responseTime(true);
         ResultSet result = dal.getTableMetaData(tableName);
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBKeys()
-    {
+
+    public ResultSet getDBKeys() {
         responseTime(true);
         ResultSet result = dal.getDBKeys();
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBIndexes()
-    {
+
+    public ResultSet getDBIndexes() {
         responseTime(true);
         ResultSet result = dal.getDBIndexes();
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBConstraints()
-    {
+
+    public ResultSet getDBConstraints() {
         responseTime(true);
         ResultSet result = dal.getDBConstraints();
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBTables()
-    {
+
+    public ResultSet getDBTables() {
         responseTime(true);
         ResultSet result = dal.getDBTables();
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBTablesAlternative()
-    {
+
+    public ResultSet getDBTablesAlternative() {
         responseTime(true);
         ResultSet result = dal.getDBTablesAlternative();
         responseTime(false);
         return result;
     }
-    
-    public ResultSet getDBTableMostRows()
-    {
+
+    public ResultSet getDBTableMostRows() {
         responseTime(true);
         ResultSet result = dal.getDBTableMostRows();
         responseTime(false);
         return result;
     }
-    
-    protected void responseTime(Boolean start)
-    {
+
+    /**
+     * Measures response time of mainly SQL-querys. Outputs time to the console.
+     *
+     * @param start Set to true to start measuring time, false to output result.
+     */
+    protected void responseTime(Boolean start) {
         long result = 0;
-        
-        if(start)
-        {
+
+        if (start) {
             resTime = System.currentTimeMillis();
-            
-        }
-        else if(start == false)
-        {
+
+        } else if (start == false) {
             result = System.currentTimeMillis() - resTime;
             System.out.println("Response time: " + result + "ms");
         }
-        
+
     }
-            
-    
-    
-    
-    
+
 }

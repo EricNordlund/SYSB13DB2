@@ -1,0 +1,6 @@
+Tabellens metada: Skrivs ut i tabellen
+    -rsmd.getColumnCount <- antal rader
+    -rsmd.getColumnName <- radnamn
+    -rsmd.getColumnLabel
+    -rsmd.getColumnType
+    -rsmd.
