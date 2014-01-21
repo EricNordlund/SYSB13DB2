@@ -81,7 +81,6 @@ public class Controller
     
     protected void responseTime(Boolean start)
     {
-        long time = 0;
         long result = 0;
         
         if(start)
