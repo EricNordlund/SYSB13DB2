@@ -31,7 +31,7 @@ public class Dal {
             this.con = DriverManager.getConnection(url, user, passw);
             this.statement = con.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dal.class.getName()).log(Level.SEVERE, "ERROR ERROR ERROR :)", ex);
         }
         System.out.println("System message: Connection to DB complete.");
     }
