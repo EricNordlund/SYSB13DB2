@@ -82,7 +82,7 @@ public class Controller {
      *
      * @param start Set to true to start measuring time, false to output result.
      */
-    protected void responseTime(Boolean start) {
+    private void responseTime(Boolean start) {
         long result = 0;
 
         if (start) {
