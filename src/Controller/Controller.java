@@ -13,11 +13,11 @@ import View.MainWindow;
 public class Controller {
 
     Dal dal;
-    MainWindow view;
+
     long resTime; //Response time variable.
 
-    public Controller() {
-        this.dal = new Dal();
+    public Controller(Dal dal) {
+        this.dal = dal;
 
     }
 
